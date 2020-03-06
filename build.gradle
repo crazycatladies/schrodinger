@@ -40,15 +40,15 @@ bintray {
 	publications = ['maven']
 
 	pkg {
-		repo = 'myAwesomeLib'
-		name = 'myAwesomeLib'
+		repo = 'maven'
+		name = 'schrodinger'
 		userOrg = 'crazycatladies'
 		licenses = ['MIT']
+		vcsUrl = 'https://github.com/crazycatladies/schrodinger'
 		version {
 			name = '0.1.0'
 			desc = '0.1.0'
 			released  = new Date()
 		}
 	}
-
 }
