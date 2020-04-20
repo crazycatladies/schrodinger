@@ -34,7 +34,7 @@ public abstract class State<T> {
         return timeInState;
     }
 
-    static <C> State create(StateFunction<C> function) {
+    static <C> State create(final StateFunction<C> function) {
         return new State<C>() {
             @Override
             protected void run(C context) {
@@ -43,7 +43,7 @@ public abstract class State<T> {
         };
     }
 
-    static <C> State createOnce(StateFunction<C> function) {
+    static <C> State createOnce(final StateFunction<C> function) {
         return new State<C>() {
             @Override
             protected void run(C context) {
