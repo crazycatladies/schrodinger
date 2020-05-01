@@ -7,7 +7,15 @@ import ftc.crazycatladies.schrodinger.log.DataLogger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * program using state machines, sequential actions that can be performed simultaneously
+ * @param <T>
+ */
 
+
+/**
+ * private instance variables being declared
+ */
 public class StateMachine<T> {
     private String name;
     private List<State> states = new ArrayList<State>();
@@ -18,9 +26,19 @@ public class StateMachine<T> {
     private String lastContext;
     private int execNum = 0;
 
+    /**
+     * calling String "name" to run in state machine
+     * @param name
+     */
     public StateMachine(String name) {
         this.name = name;
     }
+
+    /**
+     * instantiating states and indicating that only one state can be added at one time
+     * @param state
+     * @return
+     */
 
     public StateMachine<T> add(State state) {
         if (states.indexOf(state) > -1)
@@ -46,6 +64,13 @@ public class StateMachine<T> {
         return init(null);
     }
 
+    /**
+     * this method sets up the state  machine to run.  Must be called before using the
+     * state machines or else it will not work
+     * @param context
+     * @return
+     */
+
     public StateMachine<T> init(T context) {
         this.context = context;
         this.logger = DataLogger.getLogger();
@@ -61,12 +86,21 @@ public class StateMachine<T> {
         currentState = null;
     }
 
+    /**
+     * running state machines, and using if statements to get information on what to run
+     * @return
+     */
+
     public StateAction run() {
         StateAction action = null;
         JSONObject log = new JSONObject();
         DataLogger.putOpt(log, "type", "SM");
         DataLogger.putOpt(log, "name", name);
         DataLogger.putOpt(log, "execNum", execNum);
+
+        /**
+         * state machines 
+         */
 
         if (currentState != null)
             DataLogger.putOpt(log, "timeInState", currentState.timeInState.milliseconds());
