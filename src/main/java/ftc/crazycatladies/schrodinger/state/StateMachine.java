@@ -25,6 +25,7 @@ public class StateMachine<T> {
     private DataLogger logger;
     private String lastContext;
     private int execNum = 0;
+    private boolean looping = false;
 
     /**
      * calling String "name" to run in state machine
@@ -40,12 +41,12 @@ public class StateMachine<T> {
      * @return
      */
 
-    public StateMachine<T> add(State state) {
+     public State<T> add(State<T> state) {
         if (states.indexOf(state) > -1)
             throw new RuntimeException("States cannot be added more than once");
 
         states.add(state);
-        return this;
+        return state;
     }
 
     public StateMachine<T> addAll(StateMachine sm) {
@@ -53,10 +54,10 @@ public class StateMachine<T> {
         return this;
     }
 
-    public StateMachine<T> repeat(StateFunction<T> function) {
+    public State<T> repeat(StateFunction<T> function) {
         return add(State.create(function));
     }
-    public StateMachine<T> once(StateFunction<T> function) {
+    public State<T> once(StateFunction<T> function) {
         return add(State.createOnce(function));
     }
 
@@ -99,7 +100,7 @@ public class StateMachine<T> {
         DataLogger.putOpt(log, "execNum", execNum);
 
         /**
-         * state machines 
+         * state machines
          */
 
         if (currentState != null)
@@ -120,8 +121,13 @@ public class StateMachine<T> {
 
             if (currentState.getNextAction() instanceof StateTransitionAction) {
                 if (cur == states.size() - 1) {
-                    isDone = true;
-                    currentState = null;
+                    if (looping) {
+                        currentState = states.get(0);
+                        currentState.init();
+                    } else {
+                        isDone = true;
+                        currentState = null;
+                    }
                 } else {
                     currentState = states.get(cur + 1);
                     currentState.init();
@@ -151,8 +157,16 @@ public class StateMachine<T> {
     public StateMachine<T> pause(final long ms) {
         add(State.create((state, context) -> {
             if (state.timeInState.milliseconds() > ms)
-                state.transition();
+                state.next();
         }));
         return this;
+    }
+
+    public boolean isLooping() {
+        return looping;
+    }
+
+    public void setLooping(boolean looping) {
+        this.looping = looping;
     }
 }

@@ -6,7 +6,7 @@ public abstract class State<T> {
     protected ElapsedTime timeInState;
     private StateAction nextAction;
 
-    void run(T context) {}
+    protected abstract void run(T context);
 
     void init() {
         timeInState = new ElapsedTime();
@@ -16,11 +16,9 @@ public abstract class State<T> {
         nextAction = new StateContinueAction();
     }
 
-    public void transition() {
+    public void next() {
         nextAction = new StateTransitionAction();
     }
-
-    public void next() { transition(); }
 
     public void jump(State nextState) {
         nextAction = new StateJumpAction(nextState);
@@ -48,7 +46,7 @@ public abstract class State<T> {
             @Override
             protected void run(C context) {
                 function.run(this, context);
-                transition();
+                next();
             }
         };
     }
