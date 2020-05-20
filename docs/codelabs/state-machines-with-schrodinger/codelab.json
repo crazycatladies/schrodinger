@@ -1,0 +1,26 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2020-05-20T21:31:38Z",
+  "id": "state-machines-with-schrodinger",
+  "duration": 30,
+  "title": "State Machines for FTC Robots with Schrodinger",
+  "authors": "FTC Crazy Cat Ladies (12827)",
+  "summary": "In this codelab, you'll create FTC robot op modes that use Schrodinger to implement state machines",
+  "source": "1F__Ud8qwgw4FCoMPWiMhSuOUCacwuZkjAcXFqD7zZH4",
+  "theme": "state-machines",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "State Machines"
+  ],
+  "tags": [
+    "ftc-android"
+  ],
+  "feedback": "https://github.com/crazycatladies/schrodinger",
+  "ga": "UA-",
+  "url": "state-machines-with-schrodinger"
+}

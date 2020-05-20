@@ -1,0 +1,352 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>State Machines for FTC Robots with Schrodinger</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/codelab-elements/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14"></google-codelab-analytics>
+  <google-codelab codelab-gaid="UA-"
+                  id="state-machines-with-schrodinger"
+                  title="State Machines for FTC Robots with Schrodinger"
+                  environment="web"
+                  feedback-link="https://github.com/crazycatladies/schrodinger">
+    
+      <google-codelab-step label="Introduction" duration="0">
+        <p class="image-container"><img style="width: 624.00px" src="img/f2bfb04f35a144d1.jpeg"></p>
+<p><strong>Last Updated:</strong> 2020-05-05</p>
+<h2 is-upgraded><strong>What it Schrodinger?</strong></h2>
+<p>Schrodinger is a Java library for use in FTC robot control systems that helps with building state machines.</p>
+<h3 is-upgraded><strong>What is a State Machine?</strong></h3>
+<p>A state machine is the combination of a number of states and a number of transitions between them. The subject of a state machine occupies only one state at a time. The library is named after Erwin Schrödinger, who&#39;s thought-experiment about a cat in a box involved subatomic particles in multiple states simultaneously. Fortunately, this library is much easier to understand than quantum physics!</p>
+<h3 is-upgraded><strong>Why use a State Machine in an FTC robot control system?</strong></h3>
+<p>State machines are particularly useful in an FTC robot control system because it is usually not desirable for code execution to stop and wait while some condition changes. State machines allow other operations to run during the waiting period and code execution is repeatedly returned to the waiting state. This is particularly useful when state management is required for multiple components moving and waiting simultaneously in the robot.</p>
+<h3 is-upgraded><strong>An example of a State Machine in a tele-operated robot</strong></h3>
+<p>An example of where state machines are useful is for robots in a tele-operated mode. Take, for instance, a driver-controlled robot that plays tennis. After swinging the racket, the driver would like to continue to move the robot while the racket is drawn back again. A state machine can manage the operation of the racket while the robot continuously moves in response to the driver&#39;s commands.</p>
+<h2 is-upgraded><strong>What you&#39;ll build</strong></h2>
+<p>In this codelab, you&#39;re going to create op modes for an FTC robot that use the Schrodinger library to implement state machines.</p>
+<h2 class="checklist" is-upgraded><strong>What you&#39;ll learn</strong></h2>
+<ul class="checklist">
+<li>How to install Schrodinger into your FTC Android Studio project</li>
+<li>How to create a state machine using Schrodinger</li>
+</ul>
+<h2 is-upgraded><strong>What you&#39;ll need</strong></h2>
+<ul>
+<li>A computer that is able to run Android Studio</li>
+<li>Android phones which are capable of serving as Driver Station &amp; Robot Controller in order to test the op modes, or an Android Driver Station plus a Rev Robotics Control Hub</li>
+</ul>
+<aside class="warning"><p><strong>Note:</strong> This codelab is not intended for those who are completely new to the use of Android Studio for FTC robot programming. Please start by completing the entire <a href="https://github.com/FIRST-Tech-Challenge/SKYSTONE/wiki/Android-Studio-Tutorial" target="_blank">Android Studio Tutorial</a> if you have not used Android Studio to create an OpMode previously.</p>
+</aside>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Getting set up" duration="10">
+        <h2 is-upgraded><strong>Install Android Studio</strong></h2>
+<p>If you do not already have Android Studio installed, follow the instructions for <a href="https://github.com/FIRST-Tech-Challenge/SKYSTONE/wiki/Installing-Android-Studio" target="_blank">Installing Android Studio</a></p>
+<h2 is-upgraded><strong>Create the project</strong></h2>
+<p>If you are familiar with git, create a new clone of the <a href="https://github.com/FIRST-Tech-Challenge/SkyStone.git" target="_blank">FTC project repository</a> on your computer. Otherwise, just follow these instructions for <a href="https://github.com/FIRST-Tech-Challenge/SKYSTONE/wiki/Downloading-the-Android-Studio-Project-Folder" target="_blank">Downloading the Android Studio Project Folder</a> </p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Add Schrodinger to your project" duration="5">
+        <h2 is-upgraded>Adding the crazycatladies Maven repository</h2>
+<p>You&#39;ll need to let Android Studio (the gradle build system, really) know from where it can download the schrodinger library. Add <code>maven { url &#39;https://dl.bintray.com/crazycatladies/maven&#39; }</code> to the repositories section at the bottom of the <code>build.gradle</code> file in the root folder of your project.</p>
+<h3 is-upgraded><strong>build.gradle</strong></h3>
+<pre><code>/**
+* Top-level build file for ftc_app project.
+*
+* It is extraordinarily rare that you will ever need to edit this file.
+*/
+buildscript {
+   repositories {
+       google()
+       jcenter()
+   }
+   dependencies {
+       classpath &#39;com.android.tools.build:gradle:3.4.1&#39;
+   }
+}
+
+// This is now required because aapt2 has to be downloaded from the
+// google() repository beginning with version 3.2 of the Android Gradle Plugin
+allprojects {
+   repositories {
+       google()
+       jcenter()
+       maven { url &#39;https://dl.bintray.com/crazycatladies/maven&#39; }
+   }
+}</code></pre>
+<h2 is-upgraded><strong>Add the schrodinger dependency</strong></h2>
+<p>You&#39;ll make your project dependent on schrodinger, which will cause Android Studio (gradle, really) to download the library, by adding <code>implementation &#39;ftc.crazycatladies:schrodinger:0.1&#39;</code> to the end of the dependencies section in <code>TeamCode/build.release.gradle</code></p>
+<h3 is-upgraded><strong>TeamCode/build.release.gradle</strong></h3>
+<pre><code>dependencies {
+   implementation project(&#39;:FtcRobotController&#39;)
+   implementation (name: &#39;RobotCore-release&#39;, ext: &#39;aar&#39;)
+   implementation (name: &#39;Hardware-release&#39;, ext: &#39;aar&#39;)
+   implementation (name: &#39;FtcCommon-release&#39;, ext: &#39;aar&#39;)
+   implementation (name: &#39;WirelessP2p-release&#39;, ext:&#39;aar&#39;)
+   implementation (name: &#39;tfod-release&#39;, ext:&#39;aar&#39;)
+   implementation (name: &#39;tensorflow-lite-0.0.0-nightly&#39;, ext:&#39;aar&#39;)
+   implementation &#39;ftc.crazycatladies:schrodinger:0.1&#39;
+}</code></pre>
+<h2 is-upgraded><strong>Update build settings to enable Java 8</strong></h2>
+<p>Schrodinger uses Java 8 features, and you&#39;ll probably want to do the same in your own code. You can enable Java 8 by changing the <code>compileOptions</code> section in <code>build.common.gradle</code> (in the root folder of the project):</p>
+<pre><code>compileOptions {
+   sourceCompatibility JavaVersion.VERSION_1_8
+   targetCompatibility JavaVersion.VERSION_1_8
+}</code></pre>
+<h2 is-upgraded><strong>Update gradle</strong></h2>
+<p>After changing and saving these files, you should be able to update gradle by clicking &#34;Sync Now&#34; in the bar which appears at the top of these files:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/64baeddec544d315.png"></p>
+<p>If everything has gone well, your project will now reference the downloaded schrodinger external library, which you can see in the &#34;Project&#34; view of the Project window:</p>
+<p class="image-container"><img style="width: 624.00px" src="img/2830ca6d6eb4b327.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create a Tele Op Mode that uses Schrodinger" duration="5">
+        <h2 is-upgraded><strong>Create a new opmode class</strong></h2>
+<p>Create a new Java class in the <code>org.firstinspires.ftc.teamcode</code> package of the <code>TeamCode</code> module called <code>SchrodingerTeleOpMode</code>. If you&#39;re not sure how to create an op mode class, refer to <a href="https://github.com/FIRST-Tech-Challenge/SKYSTONE/wiki/Creating-and-Running-an-Op-Mode-(Android-Studio)" target="_blank">Creating and Running an Op Mode (Android Studio)</a></p>
+<p>Start by adding basic code which will display the x &amp; y values for the left stick of gamepad1.</p>
+<h3 is-upgraded><strong>SchrodingerTeleOpMode.java</strong></h3>
+<pre><code>package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+@TeleOp(name=&#34;SchrodingerTeleOp&#34;)
+public class SchrodingerTeleOpMode extends LinearOpMode {
+   @Override
+   public void runOpMode() throws InterruptedException {
+       waitForStart();
+
+       while (opModeIsActive()) {
+           telemetry.addData(&#34;x&#34;, gamepad1.left_stick_x);
+           telemetry.addData(&#34;y&#34;, gamepad1.left_stick_y);
+           telemetry.update();
+       }
+   }
+}</code></pre>
+<p>Test this out with a gamepad connected to your Driver Station phone.</p>
+<h2 is-upgraded><strong>Add a state machine to the op mode</strong></h2>
+<p>We&#39;ll add a simple state machine to this op mode that starts a 5-second countdown when the A button is pressed on the gamepad. In a real FTC robot control system, a state machine would coordinate a more complicated series of operations, but this simple example already enables one to see how state machines provide for management of simultaneous sequences of actions.</p>
+<p>First, at the top of <code>runOpMode()</code>, above <code>waitForStart()</code>, declare the StateMachine variable <code>sm</code> and initialize the data logger. The StateMachine is defined with the Integer type, since this is the object type for the context variable that is provided and kept with the state machine.</p>
+<pre><code>StateMachine&lt;Integer&gt; sm = null;
+final int SECONDS = 5;
+DataLogger.createDataLogger(new OpModeTime(this), this.getClass().getSimpleName());</code></pre>
+<p>After <code>waitForStart()</code>, add the initialization of the state machine in this block:</p>
+<pre><code>if (opModeIsActive()) {
+   sm = new StateMachine(&#34;A button countdown&#34;);
+   sm.repeat((state, seconds) -&gt; {
+       if (gamepad1.a) {
+           state.next();
+       }
+   });
+   sm.repeat(((state, seconds) -&gt; {
+       double secsInState = state.getTimeInState().seconds();
+       telemetry.addData(&#34;sm-countdown&#34;, (int)(seconds - secsInState));
+       if (secsInState &gt; seconds) {
+           state.next();
+       }
+   }));
+   sm.setLooping(true);
+   sm.init(SECONDS);
+}</code></pre>
+<aside class="special"><p>You will need to add import statements for new references to classes - like StateMachine, DataLogger, and OpModeTime. You can do this in Android Studio by clicking on the class (which is underlined in red) and pressing alt+enter or option+enter.</p>
+</aside>
+<p>These instructions perform the following steps:</p>
+<ol type="1" start="1">
+<li>Instantiate a new StateMachine object</li>
+<li>Add a state which only exits when the A button is pressed</li>
+<li>Add a state which counts down according the the number of seconds specified in the context</li>
+<li>Set the state machine to loop - that is to start back at the first state after transitioning away from the last one</li>
+<li>Initialize the state machine and provide the number of seconds to countdown via the context variable</li>
+</ol>
+<p>At the top of the while loop, add <code>sm.run()</code> to repeatedly run the state machine. Note when you run the op mode that the stick telemetry feedback continues during the countdown.</p>
+<p>The entire class is as follows:</p>
+<h3 is-upgraded>SchrodingerTeleOpMode.java</h3>
+<pre><code>package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import ftc.crazycatladies.schrodinger.log.DataLogger;
+import ftc.crazycatladies.schrodinger.opmode.OpModeTime;
+import ftc.crazycatladies.schrodinger.state.StateMachine;
+
+@TeleOp(name=&#34;SchrodingerTeleOp&#34;)
+public class SchrodingerTeleOpMode extends LinearOpMode {
+
+   @Override
+   public void runOpMode() throws InterruptedException {
+       StateMachine&lt;Integer&gt; sm = null;
+       final int SECONDS = 5;
+       DataLogger.createDataLogger(new OpModeTime(this), this.getClass().getSimpleName());
+
+       waitForStart();
+
+       if (opModeIsActive()) {
+           sm = new StateMachine(&#34;A button countdown&#34;);
+           sm.repeat((state, seconds) -&gt; {
+               if (gamepad1.a) {
+                   state.next();
+               }
+           });
+           sm.repeat(((state, seconds) -&gt; {
+               double secsInState = state.getTimeInState().seconds();
+               telemetry.addData(&#34;sm-countdown&#34;, (int)(seconds - secsInState));
+               if (secsInState &gt; seconds) {
+                   state.next();
+               }
+           }));
+           sm.setLooping(true);
+           sm.init(SECONDS);
+       }
+
+       while (opModeIsActive()) {
+           sm.run();
+
+           telemetry.addData(&#34;x&#34;, gamepad1.left_stick_x);
+           telemetry.addData(&#34;y&#34;, gamepad1.left_stick_y);
+           telemetry.update();
+       }
+   }
+}</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create a more complex state machine" duration="5">
+        <h2 is-upgraded><strong>Use jump to create a loop</strong></h2>
+<p>While a state machine that runs sequentially to the end can be useful in itself for the reasons mentioned above, Schrodinger also allows for state machines to have internal loops or branches using the jump transition.</p>
+<p>The code below replaces the initialization of the StateMachine object to add some additional complexity to our countdown. Now the third state will jump back to the previous state 50% of the time to repeat the countdown. You can imagine a need for something like this if a state machine needed to be able to recover automatically from some sort of failure.</p>
+<h3 is-upgraded>Section from <strong>SchrodingerTeleOpMode.java</strong></h3>
+<pre><code>sm = new StateMachine(&#34;A button countdown&#34;);
+sm.repeat((state, seconds) -&gt; {
+   if (gamepad1.a) {
+       state.next();
+   }
+});
+State&lt;Integer&gt; countdown = sm.repeat(((state, seconds) -&gt; {
+   double secsInState = state.getTimeInState().seconds();
+   telemetry.addData(&#34;sm-countdown&#34;, (int)(seconds - secsInState));
+   if (secsInState &gt; seconds) {
+       state.next();
+   }
+}));
+sm.repeat((state, seconds) -&gt; {
+   if (Math.random() &lt; 0.5) {
+       telemetry.addData(&#34;sm&#34;, &#34;repeat countdown&#34;);
+       state.jump(countdown);
+   } else {
+       state.next();
+   }
+});
+sm.setLooping(true);
+sm.init(SECONDS);</code></pre>
+<p>Complicated state machines can be created which are defined more by jumping than following a sequence. For example, a state machine that can transition between any of four repeating states could be implemented with twelve jumps (each state to each other state).</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Contexts, Pauses, &amp; Logging" duration="5">
+        <h2 is-upgraded><strong>Use the Context to track information</strong></h2>
+<p>In the previous examples, the state machine is initialized with the number of seconds to count down. The context for the state machine is defined to be a simple Integer object.</p>
+<p>It is possible, however, to use much more complex types to provide and maintain a much more complex set of data for a Schrodinger state machine. You could use a data structure like an array, hash map, etc., or you can define your own class and provide an instance of this class in the initialization of the state machine, as shown below.</p>
+<h3 is-upgraded><strong>SchrodingerCustomContext.java:</strong></h3>
+<pre><code>package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import ftc.crazycatladies.schrodinger.log.DataLogger;
+import ftc.crazycatladies.schrodinger.opmode.OpModeTime;
+import ftc.crazycatladies.schrodinger.state.StateMachine;
+
+@TeleOp(name=&#34;SchrodingerCustomContext&#34;)
+public class SchrodingerCustomContext extends LinearOpMode {
+
+   public class SMContext {
+       int widgetDetected;
+   }
+
+   @Override
+   public void runOpMode() throws InterruptedException {
+       StateMachine&lt;SMContext&gt; sm = null;
+       DataLogger.createDataLogger(new OpModeTime(this), this.getClass().getSimpleName());
+
+       waitForStart();
+
+       if (opModeIsActive()) {
+           sm = new StateMachine(&#34;context demo&#34;);
+           sm.once((state, context) -&gt; {
+               context.widgetDetected = (int)(3 * Math.random());
+           });
+           sm.pause(500);
+           sm.repeat((state, context) -&gt; {
+               if (state.getTimeInState().seconds() &lt; 1) {
+                   telemetry.addData(&#34;widgetDetected&#34;, context.widgetDetected);
+               } else {
+                   state.next();
+               }
+           });
+           sm.init(new SMContext());
+       }
+
+       while (opModeIsActive()) {
+           sm.run();
+           telemetry.update();
+       }
+   }
+}</code></pre>
+<p>In this example, data is collected in the first state that is needed again in the third state. An <code>SMContext</code> object is used to store it, in the <code>widgetDetected</code> field. You can imagine a real-world example of this where a robot uses a sensor to read a clue on the field that defines the location of a game element which the robot then travels to retrieve.</p>
+<h2 is-upgraded><strong>&#34;Wait a minute&#34;</strong></h2>
+<p>Also, notice that the second state on this state machine is created by using the <code>pause()</code> function. This makes for an easy way to create a state that waits for a servo to complete movement, for example.</p>
+<h2 is-upgraded><strong>Free logs!</strong></h2>
+<p>One of the included benefits of Schrodinger is logging. As shown in the snippet below, a history is recorded of each execution of a step with timestamp information, and the string representation of the state machine&#39;s context. The context is not repeated again until it&#39;s string representation has changed - in order to decrease redundancy in the log.</p>
+<h3 is-upgraded><strong>SchrodingerCustomContext-1589034300708.log</strong></h3>
+<pre><code>{&#34;opMode&#34;:&#34;SchrodingerCustomContext&#34;,&#34;time&#34;:&#34;1589034300710&#34;,&#34;t&#34;:&#34;0.003&#34;}
+{&#34;type&#34;:&#34;SM&#34;,&#34;name&#34;:&#34;context demo&#34;,&#34;execNum&#34;:1,&#34;timeInState&#34;:&#34;0.050104&#34;,&#34;state&#34;:&#34;0&#34;,&#34;context&#34;:&#34;SMContext{widgetDetected=0}&#34;,&#34;nextAction&#34;:&#34;StateTransitionAction&#34;,&#34;t&#34;:&#34;1.539&#34;}
+{&#34;type&#34;:&#34;SM&#34;,&#34;name&#34;:&#34;context demo&#34;,&#34;execNum&#34;:1,&#34;timeInState&#34;:&#34;0.7363540000000001&#34;,&#34;state&#34;:&#34;1&#34;,&#34;nextAction&#34;:&#34;StateContinueAction&#34;,&#34;t&#34;:&#34;1.539&#34;}
+{&#34;type&#34;:&#34;SM&#34;,&#34;name&#34;:&#34;context demo&#34;,&#34;execNum&#34;:1,&#34;timeInState&#34;:&#34;1.380625&#34;,&#34;state&#34;:&#34;1&#34;,&#34;nextAction&#34;:&#34;StateContinueAction&#34;,&#34;t&#34;:&#34;1.539&#34;}
+{&#34;type&#34;:&#34;SM&#34;,&#34;name&#34;:&#34;context demo&#34;,&#34;execNum&#34;:1,&#34;timeInState&#34;:&#34;1.93651&#34;,&#34;state&#34;:&#34;1&#34;,&#34;nextAction&#34;:&#34;StateContinueAction&#34;,&#34;t&#34;:&#34;1.539&#34;}
+...
+{&#34;type&#34;:&#34;SM&#34;,&#34;name&#34;:&#34;context demo&#34;,&#34;execNum&#34;:1,&#34;timeInState&#34;:&#34;491.933747&#34;,&#34;state&#34;:&#34;1&#34;,&#34;nextAction&#34;:&#34;StateContinueAction&#34;,&#34;t&#34;:&#34;2.030&#34;}
+{&#34;type&#34;:&#34;SM&#34;,&#34;name&#34;:&#34;context demo&#34;,&#34;execNum&#34;:1,&#34;timeInState&#34;:&#34;492.190934&#34;,&#34;state&#34;:&#34;1&#34;,&#34;nextAction&#34;:&#34;StateContinueAction&#34;,&#34;t&#34;:&#34;2.030&#34;}
+{&#34;type&#34;:&#34;SM&#34;,&#34;name&#34;:&#34;context demo&#34;,&#34;execNum&#34;:1,&#34;timeInState&#34;:&#34;492.44484&#34;,&#34;state&#34;:&#34;1&#34;,&#34;nextAction&#34;:&#34;StateContinueAction&#34;,&#34;t&#34;:&#34;2.030&#34;}
+...
+{&#34;type&#34;:&#34;SM&#34;,&#34;name&#34;:&#34;context demo&#34;,&#34;execNum&#34;:1,&#34;timeInState&#34;:&#34;998.912496&#34;,&#34;state&#34;:&#34;2&#34;,&#34;nextAction&#34;:&#34;StateContinueAction&#34;,&#34;t&#34;:&#34;3.035&#34;}
+{&#34;type&#34;:&#34;SM&#34;,&#34;name&#34;:&#34;context demo&#34;,&#34;execNum&#34;:1,&#34;timeInState&#34;:&#34;999.291662&#34;,&#34;state&#34;:&#34;2&#34;,&#34;nextAction&#34;:&#34;StateContinueAction&#34;,&#34;t&#34;:&#34;3.035&#34;}
+{&#34;type&#34;:&#34;SM&#34;,&#34;name&#34;:&#34;context demo&#34;,&#34;execNum&#34;:1,&#34;timeInState&#34;:&#34;999.600621&#34;,&#34;state&#34;:&#34;2&#34;,&#34;nextAction&#34;:&#34;StateContinueAction&#34;,&#34;t&#34;:&#34;3.035&#34;}
+{&#34;type&#34;:&#34;SM&#34;,&#34;name&#34;:&#34;context demo&#34;,&#34;execNum&#34;:1,&#34;timeInState&#34;:&#34;999.890048&#34;,&#34;state&#34;:&#34;2&#34;,&#34;nextAction&#34;:&#34;StateContinueAction&#34;,&#34;t&#34;:&#34;3.041&#34;}
+{&#34;type&#34;:&#34;SM&#34;,&#34;name&#34;:&#34;context demo&#34;,&#34;execNum&#34;:1,&#34;timeInState&#34;:&#34;1000.1840060000001&#34;,&#34;state&#34;:&#34;2&#34;,&#34;nextAction&#34;:&#34;StateTransitionAction&#34;,&#34;t&#34;:&#34;3.041&#34;}</code></pre>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/prettify.js"></script>
+  <script src="https://storage.googleapis.com/codelab-elements/codelab-elements.js"></script>
+
+</body>
+</html>
