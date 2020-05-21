@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2020-05-20T21:31:38Z",
+  "updated": "2020-05-21T22:06:35Z",
   "id": "state-machines-with-schrodinger",
   "duration": 30,
   "title": "State Machines for FTC Robots with Schrodinger",
@@ -20,7 +20,7 @@
   "tags": [
     "ftc-android"
   ],
-  "feedback": "https://github.com/crazycatladies/schrodinger",
-  "ga": "UA-",
+  "feedback": "https://github.com/crazycatladies/schrodinger/issues",
+  "ga": "UA-139335019",
   "url": "state-machines-with-schrodinger"
 }
