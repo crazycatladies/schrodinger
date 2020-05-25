@@ -82,41 +82,58 @@ loadScripts(document, 'script');</script>
 <tbody>
 <tr class="altColor" id="i0">
 <td class="colFirst"><a href="ftc/crazycatladies/schrodinger/log/DataLogger.html" title="class in ftc.crazycatladies.schrodinger.log">DataLogger</a></td>
-<th class="colLast" scope="row">&nbsp;</th>
+<th class="colLast" scope="row">
+<div class="block">Creates a log file for an execution of an OpMode in JSON Lines format</div>
+</th>
 </tr>
 <tr class="rowColor" id="i1">
 <td class="colFirst"><a href="ftc/crazycatladies/schrodinger/opmode/OpModeTime.html" title="class in ftc.crazycatladies.schrodinger.opmode">OpModeTime</a></td>
-<th class="colLast" scope="row">&nbsp;</th>
+<th class="colLast" scope="row">
+<div class="block">Allows classes to use the OpMode time without access to other OpMode stuff</div>
+</th>
 </tr>
 <tr class="altColor" id="i2">
 <td class="colFirst"><a href="ftc/crazycatladies/schrodinger/state/State.html" title="class in ftc.crazycatladies.schrodinger.state">State</a>&lt;<a href="ftc/crazycatladies/schrodinger/state/State.html" title="type parameter in State">T</a>&gt;</td>
-<th class="colLast" scope="row">&nbsp;</th>
+<th class="colLast" scope="row">
+<div class="block">Defines a potential status for a state machine.</div>
+</th>
 </tr>
 <tr class="rowColor" id="i3">
 <td class="colFirst"><a href="ftc/crazycatladies/schrodinger/state/StateAction.html" title="class in ftc.crazycatladies.schrodinger.state">StateAction</a></td>
-<th class="colLast" scope="row">&nbsp;</th>
+<th class="colLast" scope="row">
+<div class="block">Transition which should occur based on executing the actions for a <a href="ftc/crazycatladies/schrodinger/state/State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a></div>
+</th>
 </tr>
 <tr class="altColor" id="i4">
 <td class="colFirst"><a href="ftc/crazycatladies/schrodinger/state/StateContinueAction.html" title="class in ftc.crazycatladies.schrodinger.state">StateContinueAction</a></td>
-<th class="colLast" scope="row">&nbsp;</th>
+<th class="colLast" scope="row">
+<div class="block">Result for executing a <a href="ftc/crazycatladies/schrodinger/state/State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a> for which the <a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> should not transition</div>
+</th>
 </tr>
 <tr class="rowColor" id="i5">
 <td class="colFirst"><a href="ftc/crazycatladies/schrodinger/state/StateFunction.html" title="interface in ftc.crazycatladies.schrodinger.state">StateFunction</a>&lt;<a href="ftc/crazycatladies/schrodinger/state/StateFunction.html" title="type parameter in StateFunction">T</a>&gt;</td>
-<th class="colLast" scope="row">&nbsp;</th>
+<th class="colLast" scope="row">
+<div class="block">Function interface used to allow <a href="ftc/crazycatladies/schrodinger/state/State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a> classes to be defined by lambda expressions</div>
+</th>
 </tr>
 <tr class="altColor" id="i6">
 <td class="colFirst"><a href="ftc/crazycatladies/schrodinger/state/StateJumpAction.html" title="class in ftc.crazycatladies.schrodinger.state">StateJumpAction</a></td>
-<th class="colLast" scope="row">&nbsp;</th>
+<th class="colLast" scope="row">
+<div class="block">Result for executing a <a href="ftc/crazycatladies/schrodinger/state/State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a> for which the <a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> should transition to the specified
+ <a href="ftc/crazycatladies/schrodinger/state/State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a></div>
+</th>
 </tr>
 <tr class="rowColor" id="i7">
 <td class="colFirst"><a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a>&lt;<a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</td>
 <th class="colLast" scope="row">
-<div class="block">private instance variables being declared</div>
+<div class="block">program using state machines, sequential actions that can be performed simultaneously</div>
 </th>
 </tr>
 <tr class="altColor" id="i8">
 <td class="colFirst"><a href="ftc/crazycatladies/schrodinger/state/StateTransitionAction.html" title="class in ftc.crazycatladies.schrodinger.state">StateTransitionAction</a></td>
-<th class="colLast" scope="row">&nbsp;</th>
+<th class="colLast" scope="row">
+<div class="block">Result for executing a <a href="ftc/crazycatladies/schrodinger/state/State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a> for which the <a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> should transition to the next state</div>
+</th>
 </tr>
 </tbody>
 </table>

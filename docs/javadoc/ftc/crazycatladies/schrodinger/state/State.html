@@ -90,9 +90,15 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">ftc.crazycatladies.schrodinger.state.State&lt;T&gt;</div>
 </div>
 <section class="description">
+<dl>
+<dt><span class="paramLabel">Type Parameters:</span></dt>
+<dd><code>T</code> - context type - must match the context type for the <a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> to which this state belongs</dd>
+</dl>
 <hr>
 <pre>public abstract class <span class="typeNameLabel">State&lt;T&gt;</span>
 extends java.lang.Object</pre>
+<div class="block">Defines a potential status for a state machine. Subclasses define actions which should be taken in this status by
+ overriding the <a href="#run(T)"><code>run(Object)</code></a> method.</div>
 </section>
 <section class="summary">
 <ul class="blockList">
@@ -116,7 +122,9 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <td class="colFirst"><code>protected com.qualcomm.robotcore.util.ElapsedTime</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#timeInState">timeInState</a></span></code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">the amount of time that this state machine has been in this state</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -169,22 +177,30 @@ extends java.lang.Object</pre>
 <tr class="altColor" id="i0">
 <td class="colFirst"><code>com.qualcomm.robotcore.util.ElapsedTime</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getTimeInState()">getTimeInState</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Returns the amount of time that this state machine has been in this state</div>
+</td>
 </tr>
 <tr class="rowColor" id="i1">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#jump(ftc.crazycatladies.schrodinger.state.State)">jump</a></span>&#8203;(<a href="State.html" title="class in ftc.crazycatladies.schrodinger.state">State</a>&nbsp;nextState)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Causes the <a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> to leave this state and move on to the specified one next</div>
+</td>
 </tr>
 <tr class="altColor" id="i2">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#next()">next</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Causes the next state in a <a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> to be run during its next execution</div>
+</td>
 </tr>
 <tr class="rowColor" id="i3">
 <td class="colFirst"><code>protected abstract void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#run(T)">run</a></span>&#8203;(<a href="State.html" title="type parameter in State">T</a>&nbsp;context)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Defines the actions that should run while a <a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> is in this state.</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -212,6 +228,7 @@ extends java.lang.Object</pre>
 <section class="detail">
 <h3><a id="timeInState">timeInState</a></h3>
 <div class="memberSignature"><span class="modifiers">protected</span>&nbsp;<span class="returnType">com.qualcomm.robotcore.util.ElapsedTime</span>&nbsp;<span class="memberName">timeInState</span></div>
+<div class="block">the amount of time that this state machine has been in this state</div>
 </section>
 </li>
 </ul>
@@ -246,24 +263,38 @@ extends java.lang.Object</pre>
 <!--   -->
 </a><a id="run(T)">run</a></h3>
 <div class="memberSignature"><span class="modifiers">protected abstract</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">run</span>&#8203;(<span class="arguments"><a href="State.html" title="type parameter in State">T</a>&nbsp;context)</span></div>
+<div class="block">Defines the actions that should run while a <a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> is in this state. State will run infinitely
+ unless <a href="#next()"><code>next()</code></a> or <a href="#jump(ftc.crazycatladies.schrodinger.state.State)"><code>jump(State)</code></a> is called</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>context</code> - current context information for the state machine. Can be used to provide a state with information
+                or to allow the state to record information for a following state</dd>
+</dl>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="next()">next</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">next</span>()</div>
+<div class="block">Causes the next state in a <a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> to be run during its next execution</div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="jump(ftc.crazycatladies.schrodinger.state.State)">jump</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">jump</span>&#8203;(<span class="arguments"><a href="State.html" title="class in ftc.crazycatladies.schrodinger.state">State</a>&nbsp;nextState)</span></div>
+<div class="block">Causes the <a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> to leave this state and move on to the specified one next</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>nextState</code> - the state which should be run during the next execution of the <a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a></dd>
+</dl>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="getTimeInState()">getTimeInState</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">com.qualcomm.robotcore.util.ElapsedTime</span>&nbsp;<span class="memberName">getTimeInState</span>()</div>
+<div class="block">Returns the amount of time that this state machine has been in this state</div>
 </section>
 </li>
 </ul>

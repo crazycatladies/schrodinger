@@ -78,7 +78,9 @@ loadScripts(document, 'script');</script>
 <tbody>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="StateFunction.html" title="interface in ftc.crazycatladies.schrodinger.state">StateFunction</a>&lt;T&gt;</th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Function interface used to allow <a href="State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a> classes to be defined by lambda expressions</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -97,29 +99,40 @@ loadScripts(document, 'script');</script>
 <tbody>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="State.html" title="class in ftc.crazycatladies.schrodinger.state">State</a>&lt;T&gt;</th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Defines a potential status for a state machine.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="StateAction.html" title="class in ftc.crazycatladies.schrodinger.state">StateAction</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Transition which should occur based on executing the actions for a <a href="State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a></div>
+</td>
 </tr>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="StateContinueAction.html" title="class in ftc.crazycatladies.schrodinger.state">StateContinueAction</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Result for executing a <a href="State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a> for which the <a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> should not transition</div>
+</td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="StateJumpAction.html" title="class in ftc.crazycatladies.schrodinger.state">StateJumpAction</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Result for executing a <a href="State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a> for which the <a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> should transition to the specified
+ <a href="State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a></div>
+</td>
 </tr>
 <tr class="altColor">
 <th class="colFirst" scope="row"><a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a>&lt;T&gt;</th>
 <td class="colLast">
-<div class="block">private instance variables being declared</div>
+<div class="block">program using state machines, sequential actions that can be performed simultaneously</div>
 </td>
 </tr>
 <tr class="rowColor">
 <th class="colFirst" scope="row"><a href="StateTransitionAction.html" title="class in ftc.crazycatladies.schrodinger.state">StateTransitionAction</a></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Result for executing a <a href="State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a> for which the <a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> should transition to the next state</div>
+</td>
 </tr>
 </tbody>
 </table>
