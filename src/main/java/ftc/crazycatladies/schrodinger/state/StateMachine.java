@@ -11,11 +11,6 @@ import java.util.List;
  * program using state machines, sequential actions that can be performed simultaneously
  * @param <T>
  */
-
-
-/**
- * private instance variables being declared
- */
 public class StateMachine<T> {
     private String name;
     private List<State> states = new ArrayList<State>();

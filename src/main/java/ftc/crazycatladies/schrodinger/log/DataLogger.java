@@ -16,6 +16,9 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.Date;
 
+/**
+ * Creates a log file for an execution of an OpMode in JSON Lines format
+ */
 public class DataLogger {
     private static DataLogger logger;
     private BufferedWriter writer;
@@ -64,10 +67,24 @@ public class DataLogger {
         }
     }
 
+    /**
+     * Creates and returns a static DataLogger if it does not already exist
+     * @param opModeTime wrapper around OpMode providing access to time only
+     * @param opModeName name of the OpMode to be used in naming the log file
+     * @return static DataLogger
+     */
     public static DataLogger createDataLogger(OpModeTime opModeTime, String opModeName) {
+        if (logger != null)
+            return logger;
         return logger = new DataLogger(opModeTime, opModeName);
     }
 
+    /**
+     * Helper method which initializes a JSONObject and sets type and name attributes on it
+     * @param type type of object creating the log entry (e.g. 'SM' for State Machine)
+     * @param name name of object creating the log entry
+     * @return a JSONObject to which other attributes can be added
+     */
     public static JSONObject createJsonObject(String type, String name) {
         JSONObject json = new JSONObject();
         putOpt(json, "type", type);
@@ -75,6 +92,10 @@ public class DataLogger {
         return json;
     }
 
+    /**
+     * Write log entry to file
+     * @param json log entry data in JSON format
+     */
     public void log(JSONObject json) {
        putOpt(json, "t", "" + String.format("%.3f", time.time()));
         String str = json.toString();
@@ -88,10 +109,19 @@ public class DataLogger {
         }
     }
 
+    /**
+     * Retrieves the previously created static DataLogger object
+     */
     public static DataLogger getLogger() {
         return logger;
     }
 
+    /**
+     * Adds a name/value pair to a JSON object. Handles doubles which can have NaN value
+     * @param json JSON object to which to add the attribute
+     * @param name name of the attribute
+     * @param value value of the attribute
+     */
     public static void putOpt(JSONObject json, String name, Object value) {
         try {
             if (value instanceof Double) {
@@ -103,6 +133,9 @@ public class DataLogger {
         }
     }
 
+    /**
+     * Close the log writer
+     */
     public void stop() {
         try {
             writer.close();
