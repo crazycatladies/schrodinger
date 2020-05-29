@@ -26,11 +26,11 @@
                   title="State Machines for FTC Robots with Schrodinger"
                   environment="web"
                   feedback-link="https://github.com/crazycatladies/schrodinger/issues">
-
+    
       <google-codelab-step label="Introduction" duration="0">
-        <p class="image-container"><img style="width: 624.00px" src="img/f2bfb04f35a144d1.jpeg"></p>
+        <p class="image-container"><img style="width: 624.00px" src="img/c8baeb629d582554.jpeg"></p>
 <p><strong>Last Updated:</strong> 2020-05-21</p>
-<h2 is-upgraded><strong>What it Schrodinger?</strong></h2>
+<h2 is-upgraded><strong>What is Schrodinger?</strong></h2>
 <p>Schrodinger is a Java library for use in FTC robot control systems that helps with building state machines.</p>
 <h3 is-upgraded><strong>What is a State Machine?</strong></h3>
 <p>A state machine is the combination of a number of states and a number of transitions between them. The subject of a state machine occupies only one state at a time. The library is named after Erwin Schrödinger, who&#39;s thought-experiment about a cat in a box involved subatomic particles in multiple states simultaneously. Fortunately, this library is much easier to understand than quantum physics!</p>
@@ -55,7 +55,7 @@
 
 
       </google-codelab-step>
-
+    
       <google-codelab-step label="Getting set up" duration="10">
         <h2 is-upgraded><strong>Install Android Studio</strong></h2>
 <p>If you do not already have Android Studio installed, follow the instructions for <a href="https://github.com/FIRST-Tech-Challenge/SKYSTONE/wiki/Installing-Android-Studio" target="_blank">Installing Android Studio</a></p>
@@ -64,7 +64,7 @@
 
 
       </google-codelab-step>
-
+    
       <google-codelab-step label="Add Schrodinger to your project" duration="5">
         <h2 is-upgraded>Adding the crazycatladies Maven repository</h2>
 <p>You&#39;ll need to let Android Studio (the gradle build system, really) know from where it can download the schrodinger library. Add <code>maven { url &#39;https://dl.bintray.com/crazycatladies/maven&#39; }</code> to the repositories section at the bottom of the <code>build.gradle</code> file in the root folder of your project.</p>
@@ -94,7 +94,7 @@ allprojects {
    }
 }</code></pre>
 <h2 is-upgraded><strong>Add the schrodinger dependency</strong></h2>
-<p>You&#39;ll make your project dependent on schrodinger, which will cause Android Studio (gradle, really) to download the library, by adding <code>implementation &#39;ftc.crazycatladies:schrodinger:0.1&#39;</code> to the end of the dependencies section in <code>TeamCode/build.release.gradle</code></p>
+<p>You&#39;ll make your project dependent on schrodinger, which will cause Android Studio (gradle, really) to download the library, by adding <code>implementation &#39;ftc.crazycatladies:schrodinger:0.1.1&#39;</code> to the end of the dependencies section in <code>TeamCode/build.release.gradle</code></p>
 <h3 is-upgraded><strong>TeamCode/build.release.gradle</strong></h3>
 <pre><code>dependencies {
    implementation project(&#39;:FtcRobotController&#39;)
@@ -104,7 +104,7 @@ allprojects {
    implementation (name: &#39;WirelessP2p-release&#39;, ext:&#39;aar&#39;)
    implementation (name: &#39;tfod-release&#39;, ext:&#39;aar&#39;)
    implementation (name: &#39;tensorflow-lite-0.0.0-nightly&#39;, ext:&#39;aar&#39;)
-   implementation &#39;ftc.crazycatladies:schrodinger:0.1&#39;
+   implementation &#39;ftc.crazycatladies:schrodinger:0.1.1&#39;
 }</code></pre>
 <h2 is-upgraded><strong>Update build settings to enable Java 8</strong></h2>
 <p>Schrodinger uses Java 8 features, and you&#39;ll probably want to do the same in your own code. You can enable Java 8 by changing the <code>compileOptions</code> section in <code>build.common.gradle</code> (in the root folder of the project):</p>
@@ -120,7 +120,7 @@ allprojects {
 
 
       </google-codelab-step>
-
+    
       <google-codelab-step label="Create a Tele Op Mode that uses Schrodinger" duration="5">
         <h2 is-upgraded><strong>Create a new opmode class</strong></h2>
 <p>Create a new Java class in the <code>org.firstinspires.ftc.teamcode</code> package of the <code>TeamCode</code> module called <code>SchrodingerTeleOpMode</code>. If you&#39;re not sure how to create an op mode class, refer to <a href="https://github.com/FIRST-Tech-Challenge/SKYSTONE/wiki/Creating-and-Running-an-Op-Mode-(Android-Studio)" target="_blank">Creating and Running an Op Mode (Android Studio)</a></p>
@@ -232,7 +232,7 @@ public class SchrodingerTeleOpMode extends LinearOpMode {
 
 
       </google-codelab-step>
-
+    
       <google-codelab-step label="Create a more complex state machine" duration="5">
         <h2 is-upgraded><strong>Use jump to create a loop</strong></h2>
 <p>While a state machine that runs sequentially to the end can be useful in itself for the reasons mentioned above, Schrodinger also allows for state machines to have internal loops or branches using the jump transition.</p>
@@ -265,7 +265,7 @@ sm.init(SECONDS);</code></pre>
 
 
       </google-codelab-step>
-
+    
       <google-codelab-step label="Contexts, Pauses, &amp; Logging" duration="5">
         <h2 is-upgraded><strong>Use the Context to track information</strong></h2>
 <p>In the previous examples, the state machine is initialized with the number of seconds to count down. The context for the state machine is defined to be a simple Integer object.</p>
@@ -340,7 +340,7 @@ public class SchrodingerCustomContext extends LinearOpMode {
 
 
       </google-codelab-step>
-
+    
   </google-codelab>
 
   <script src="https://storage.googleapis.com/codelab-elements/native-shim.js"></script>

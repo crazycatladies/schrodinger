@@ -8,8 +8,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * program using state machines, sequential actions that can be performed simultaneously
- * @param <T>
+ * State machine which executes the actions specified in a number of {@link State} objects. Status follows
+ * transitions which are indicated by the states during execution. A context object can be provided to the
+ * state machine and passed between states as a means of providing information to states, or allowing them
+ * to pass it between them.<br>
+ * <br>
+ * Typical use involves building the state machine and then running repeatedly:<br><br>
+ * <pre>
+ * sm = new StateMachine("A button countdown");
+ * sm.repeat((state, seconds) -&gt; {
+ *     if (gamepad1.a) {
+ *         state.next();
+ *     }
+ * });
+ * sm.repeat(((state, seconds) -&gt; {
+ *     double secsInState = state.getTimeInState().seconds();
+ *     telemetry.addData("sm-countdown", (int)(seconds - secsInState));
+ *     if (secsInState &gt; seconds) {
+ *         state.next();
+ *     }
+ * }));
+ * sm.setLooping(true);
+ * sm.init(SECONDS);
+ *
+ * while (opModeIsActive()) {
+ *     sm.run();
+ * }
+ * </pre>
+ * @param <T> type of the state machine's context object
  */
 public class StateMachine<T> {
     private String name;
@@ -23,19 +49,19 @@ public class StateMachine<T> {
     private boolean looping = false;
 
     /**
-     * calling String "name" to run in state machine
-     * @param name
+     * @param name name of the state machine, used in logging
      */
     public StateMachine(String name) {
         this.name = name;
     }
 
     /**
+     * Adds a state as the next in the sequence
      * instantiating states and indicating that only one state can be added at one time
-     * @param state
-     * @return
+     * @param state the state to be added this state machine's sequence
+     * @throws RuntimeException if an attempt is made to add a state more than once
+     * @return the state that was added
      */
-
      public State<T> add(State<T> state) {
         if (states.indexOf(state) > -1)
             throw new RuntimeException("States cannot be added more than once");
@@ -44,14 +70,32 @@ public class StateMachine<T> {
         return state;
     }
 
+    /**
+     * Add all the states from another state machine
+     * @param sm another state machine from which to add all the states
+     * @return this state machine
+     */
     public StateMachine<T> addAll(StateMachine sm) {
         states.addAll(sm.states);
         return this;
     }
 
+    /**
+     * Create a state, which repeats by default, and add it to this state machine
+     * from a StateFunction lambda expression
+     * @param function lambda expression to wrap with a State object
+     * @return the created state which has been added to the state machine
+     */
     public State<T> repeat(StateFunction<T> function) {
         return add(State.create(function));
     }
+
+    /**
+     * Create a state, which exits after one execution, and add it to this state machine
+     * from a StateFunction lambda expression
+     * @param function lambda expression to wrap with a State object
+     * @return the created state which has been added to the state machine
+     */
     public State<T> once(StateFunction<T> function) {
         return add(State.createOnce(function));
     }
@@ -61,12 +105,11 @@ public class StateMachine<T> {
     }
 
     /**
-     * this method sets up the state  machine to run.  Must be called before using the
-     * state machines or else it will not work
-     * @param context
-     * @return
+     * Sets up the state machine to run. Must be called before running the state machine.
+     * Intended to be executed during robot initialization, or to reset for another execution
+     * @param context data to be provided to states or updated by states
+     * @return this state machine
      */
-
     public StateMachine<T> init(T context) {
         this.context = context;
         this.logger = DataLogger.getLogger();
@@ -77,26 +120,27 @@ public class StateMachine<T> {
         return this;
     }
 
+    /**
+     * Stops the state machine from executing further when {@link #run()} is invoked
+     */
     public void stop() {
         isDone = true;
         currentState = null;
     }
 
     /**
-     * running state machines, and using if statements to get information on what to run
-     * @return
+     * Causes the current state to be executed and the current state to be updated appropriately based on the
+     * result (i.e. continue, next, jump). Creates a log entry detailing the current state, how much time
+     * has been spent in that state, whether the state machine is done, which execution of the state machine
+     * this is (e.g. 0 = 1st execution), etc.
+     * @return the action specified (potentially a transition) after running the current state
      */
-
     public StateAction run() {
         StateAction action = null;
         JSONObject log = new JSONObject();
         DataLogger.putOpt(log, "type", "SM");
         DataLogger.putOpt(log, "name", name);
         DataLogger.putOpt(log, "execNum", execNum);
-
-        /**
-         * state machines
-         */
 
         if (currentState != null)
             DataLogger.putOpt(log, "timeInState", currentState.timeInState.milliseconds());
@@ -145,10 +189,19 @@ public class StateMachine<T> {
         }
     }
 
+    /**
+     * @return true if the state machine has transitioned from the last state or if stop has been invoked
+     */
     public boolean isDone() {
         return isDone;
     }
 
+    /**
+     * Creates a new state which is added to this state machine and causes it to wait a period of time
+     * before moving on
+     * @param ms number of milliseonds to wait before transitioning to the next state
+     * @return
+     */
     public StateMachine<T> pause(final long ms) {
         add(State.create((state, context) -> {
             if (state.timeInState.milliseconds() > ms)
@@ -157,10 +210,16 @@ public class StateMachine<T> {
         return this;
     }
 
+    /**
+     * @return true if this state machine will automatically restart at the first state after completing the last one
+     */
     public boolean isLooping() {
         return looping;
     }
 
+    /**
+     * Controls whether this state machine will automatically restart at the first state after completing the last one
+     */
     public void setLooping(boolean looping) {
         this.looping = looping;
     }
