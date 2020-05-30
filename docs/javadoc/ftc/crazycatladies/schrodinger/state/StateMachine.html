@@ -92,12 +92,38 @@ loadScripts(document, 'script');</script>
 <section class="description">
 <dl>
 <dt><span class="paramLabel">Type Parameters:</span></dt>
-<dd><code>T</code> - </dd>
+<dd><code>T</code> - type of the state machine's context object</dd>
 </dl>
 <hr>
 <pre>public class <span class="typeNameLabel">StateMachine&lt;T&gt;</span>
 extends java.lang.Object</pre>
-<div class="block">program using state machines, sequential actions that can be performed simultaneously</div>
+<div class="block">State machine which executes the actions specified in a number of <a href="State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a> objects. Status follows
+ transitions which are indicated by the states during execution. A context object can be provided to the
+ state machine and passed between states as a means of providing information to states, or allowing them
+ to pass it between them.<br>
+ <br>
+ Typical use involves building the state machine and then running repeatedly:<br><br>
+ <pre>
+ sm = new StateMachine("A button countdown");
+ sm.repeat((state, seconds) -&gt; {
+     if (gamepad1.a) {
+         state.next();
+     }
+ });
+ sm.repeat(((state, seconds) -&gt; {
+     double secsInState = state.getTimeInState().seconds();
+     telemetry.addData("sm-countdown", (int)(seconds - secsInState));
+     if (secsInState &gt; seconds) {
+         state.next();
+     }
+ }));
+ sm.setLooping(true);
+ sm.init(SECONDS);
+
+ while (opModeIsActive()) {
+     sm.run();
+ }
+ </pre></div>
 </section>
 <section class="summary">
 <ul class="blockList">
@@ -119,9 +145,7 @@ extends java.lang.Object</pre>
 <tbody>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(java.lang.String)">StateMachine</a></span>&#8203;(java.lang.String&nbsp;name)</code></th>
-<td class="colLast">
-<div class="block">calling String "name" to run in state machine</div>
-</td>
+<td class="colLast">&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -150,13 +174,16 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code><a href="State.html" title="class in ftc.crazycatladies.schrodinger.state">State</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#add(ftc.crazycatladies.schrodinger.state.State)">add</a></span>&#8203;(<a href="State.html" title="class in ftc.crazycatladies.schrodinger.state">State</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;&nbsp;state)</code></th>
 <td class="colLast">
-<div class="block">instantiating states and indicating that only one state can be added at one time</div>
+<div class="block">Adds a state as the next in the sequence
+ instantiating states and indicating that only one state can be added at one time</div>
 </td>
 </tr>
 <tr class="rowColor" id="i1">
 <td class="colFirst"><code><a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#addAll(ftc.crazycatladies.schrodinger.state.StateMachine)">addAll</a></span>&#8203;(<a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a>&nbsp;sm)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Add all the states from another state machine</div>
+</td>
 </tr>
 <tr class="altColor" id="i2">
 <td class="colFirst"><code><a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</code></td>
@@ -167,7 +194,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code><a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#init(T)">init</a></span>&#8203;(<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&nbsp;context)</code></th>
 <td class="colLast">
-<div class="block">this method sets up the state  machine to run.</div>
+<div class="block">Sets up the state machine to run.</div>
 </td>
 </tr>
 <tr class="altColor" id="i4">
@@ -183,34 +210,48 @@ extends java.lang.Object</pre>
 <tr class="altColor" id="i6">
 <td class="colFirst"><code><a href="State.html" title="class in ftc.crazycatladies.schrodinger.state">State</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#once(ftc.crazycatladies.schrodinger.state.StateFunction)">once</a></span>&#8203;(<a href="StateFunction.html" title="interface in ftc.crazycatladies.schrodinger.state">StateFunction</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;&nbsp;function)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Create a state, which exits after one execution, and add it to this state machine
+ from a StateFunction lambda expression</div>
+</td>
 </tr>
 <tr class="rowColor" id="i7">
 <td class="colFirst"><code><a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pause(long)">pause</a></span>&#8203;(long&nbsp;ms)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Creates a new state which is added to this state machine and causes it to wait a period of time
+ before moving on</div>
+</td>
 </tr>
 <tr class="altColor" id="i8">
 <td class="colFirst"><code><a href="State.html" title="class in ftc.crazycatladies.schrodinger.state">State</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#repeat(ftc.crazycatladies.schrodinger.state.StateFunction)">repeat</a></span>&#8203;(<a href="StateFunction.html" title="interface in ftc.crazycatladies.schrodinger.state">StateFunction</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;&nbsp;function)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Create a state, which repeats by default, and add it to this state machine
+ from a StateFunction lambda expression</div>
+</td>
 </tr>
 <tr class="rowColor" id="i9">
 <td class="colFirst"><code><a href="StateAction.html" title="class in ftc.crazycatladies.schrodinger.state">StateAction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#run()">run</a></span>()</code></th>
 <td class="colLast">
-<div class="block">running state machines, and using if statements to get information on what to run</div>
+<div class="block">Causes the current state to be executed and the current state to be updated appropriately based on the
+ result (i.e.</div>
 </td>
 </tr>
 <tr class="altColor" id="i10">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setLooping(boolean)">setLooping</a></span>&#8203;(boolean&nbsp;looping)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Controls whether this state machine will automatically restart at the first state after completing the last one</div>
+</td>
 </tr>
 <tr class="rowColor" id="i11">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#stop()">stop</a></span>()</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Stops the state machine from executing further when <a href="#run()"><code>run()</code></a> is invoked</div>
+</td>
 </tr>
 </tbody>
 </table>
@@ -238,10 +279,9 @@ extends java.lang.Object</pre>
 <section class="detail">
 <h3><a id="&lt;init&gt;(java.lang.String)">StateMachine</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="memberName">StateMachine</span>&#8203;(<span class="arguments">java.lang.String&nbsp;name)</span></div>
-<div class="block">calling String "name" to run in state machine</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>name</code> - </dd>
+<dd><code>name</code> - name of the state machine, used in logging</dd>
 </dl>
 </section>
 </li>
@@ -259,11 +299,15 @@ extends java.lang.Object</pre>
 <section class="detail">
 <h3><a id="add(ftc.crazycatladies.schrodinger.state.State)">add</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="State.html" title="class in ftc.crazycatladies.schrodinger.state">State</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</span>&nbsp;<span class="memberName">add</span>&#8203;(<span class="arguments"><a href="State.html" title="class in ftc.crazycatladies.schrodinger.state">State</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;&nbsp;state)</span></div>
-<div class="block">instantiating states and indicating that only one state can be added at one time</div>
+<div class="block">Adds a state as the next in the sequence
+ instantiating states and indicating that only one state can be added at one time</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>state</code> - </dd>
+<dd><code>state</code> - the state to be added this state machine's sequence</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
+<dd>the state that was added</dd>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code>java.lang.RuntimeException</code> - if an attempt is made to add a state more than once</dd>
 </dl>
 </section>
 </li>
@@ -271,18 +315,41 @@ extends java.lang.Object</pre>
 <section class="detail">
 <h3><a id="addAll(ftc.crazycatladies.schrodinger.state.StateMachine)">addAll</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</span>&nbsp;<span class="memberName">addAll</span>&#8203;(<span class="arguments"><a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a>&nbsp;sm)</span></div>
+<div class="block">Add all the states from another state machine</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>sm</code> - another state machine from which to add all the states</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>this state machine</dd>
+</dl>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="repeat(ftc.crazycatladies.schrodinger.state.StateFunction)">repeat</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="State.html" title="class in ftc.crazycatladies.schrodinger.state">State</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</span>&nbsp;<span class="memberName">repeat</span>&#8203;(<span class="arguments"><a href="StateFunction.html" title="interface in ftc.crazycatladies.schrodinger.state">StateFunction</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;&nbsp;function)</span></div>
+<div class="block">Create a state, which repeats by default, and add it to this state machine
+ from a StateFunction lambda expression</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>function</code> - lambda expression to wrap with a State object</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the created state which has been added to the state machine</dd>
+</dl>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="once(ftc.crazycatladies.schrodinger.state.StateFunction)">once</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="State.html" title="class in ftc.crazycatladies.schrodinger.state">State</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</span>&nbsp;<span class="memberName">once</span>&#8203;(<span class="arguments"><a href="StateFunction.html" title="interface in ftc.crazycatladies.schrodinger.state">StateFunction</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;&nbsp;function)</span></div>
+<div class="block">Create a state, which exits after one execution, and add it to this state machine
+ from a StateFunction lambda expression</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>function</code> - lambda expression to wrap with a State object</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the created state which has been added to the state machine</dd>
+</dl>
 </section>
 </li>
 <li class="blockList">
@@ -297,12 +364,13 @@ extends java.lang.Object</pre>
 <!--   -->
 </a><a id="init(T)">init</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</span>&nbsp;<span class="memberName">init</span>&#8203;(<span class="arguments"><a href="StateMachine.html" title="type parameter in StateMachine">T</a>&nbsp;context)</span></div>
-<div class="block">this method sets up the state  machine to run.  Must be called before using the
- state machines or else it will not work</div>
+<div class="block">Sets up the state machine to run. Must be called before running the state machine.
+ Intended to be executed during robot initialization, or to reset for another execution</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>context</code> - </dd>
+<dd><code>context</code> - data to be provided to states or updated by states</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
+<dd>this state machine</dd>
 </dl>
 </section>
 </li>
@@ -310,15 +378,20 @@ extends java.lang.Object</pre>
 <section class="detail">
 <h3><a id="stop()">stop</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">stop</span>()</div>
+<div class="block">Stops the state machine from executing further when <a href="#run()"><code>run()</code></a> is invoked</div>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="run()">run</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="StateAction.html" title="class in ftc.crazycatladies.schrodinger.state">StateAction</a></span>&nbsp;<span class="memberName">run</span>()</div>
-<div class="block">running state machines, and using if statements to get information on what to run</div>
+<div class="block">Causes the current state to be executed and the current state to be updated appropriately based on the
+ result (i.e. continue, next, jump). Creates a log entry detailing the current state, how much time
+ has been spent in that state, whether the state machine is done, which execution of the state machine
+ this is (e.g. 0 = 1st execution), etc.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
+<dd>the action specified (potentially a transition) after running the current state</dd>
 </dl>
 </section>
 </li>
@@ -326,24 +399,40 @@ extends java.lang.Object</pre>
 <section class="detail">
 <h3><a id="isDone()">isDone</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName">isDone</span>()</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if the state machine has transitioned from the last state or if stop has been invoked</dd>
+</dl>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="pause(long)">pause</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType"><a href="StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a>&lt;<a href="StateMachine.html" title="type parameter in StateMachine">T</a>&gt;</span>&nbsp;<span class="memberName">pause</span>&#8203;(<span class="arguments">long&nbsp;ms)</span></div>
+<div class="block">Creates a new state which is added to this state machine and causes it to wait a period of time
+ before moving on</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>ms</code> - number of milliseonds to wait before transitioning to the next state</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+</dl>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="isLooping()">isLooping</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">boolean</span>&nbsp;<span class="memberName">isLooping</span>()</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if this state machine will automatically restart at the first state after completing the last one</dd>
+</dl>
 </section>
 </li>
 <li class="blockList">
 <section class="detail">
 <h3><a id="setLooping(boolean)">setLooping</a></h3>
 <div class="memberSignature"><span class="modifiers">public</span>&nbsp;<span class="returnType">void</span>&nbsp;<span class="memberName">setLooping</span>&#8203;(<span class="arguments">boolean&nbsp;looping)</span></div>
+<div class="block">Controls whether this state machine will automatically restart at the first state after completing the last one</div>
 </section>
 </li>
 </ul>

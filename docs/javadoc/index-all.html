@@ -69,10 +69,13 @@ loadScripts(document, 'script');</script>
 <dl>
 <dt><span class="memberNameLink"><a href="ftc/crazycatladies/schrodinger/state/StateMachine.html#add(ftc.crazycatladies.schrodinger.state.State)">add(State&lt;T&gt;)</a></span> - Method in class ftc.crazycatladies.schrodinger.state.<a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a></dt>
 <dd>
-<div class="block">instantiating states and indicating that only one state can be added at one time</div>
+<div class="block">Adds a state as the next in the sequence
+ instantiating states and indicating that only one state can be added at one time</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ftc/crazycatladies/schrodinger/state/StateMachine.html#addAll(ftc.crazycatladies.schrodinger.state.StateMachine)">addAll(StateMachine)</a></span> - Method in class ftc.crazycatladies.schrodinger.state.<a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Add all the states from another state machine</div>
+</dd>
 </dl>
 <a id="I:C">
 <!--   -->
@@ -133,7 +136,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="ftc/crazycatladies/schrodinger/state/StateMachine.html#init(T)">init(T)</a></span> - Method in class ftc.crazycatladies.schrodinger.state.<a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a></dt>
 <dd>
-<div class="block">this method sets up the state  machine to run.</div>
+<div class="block">Sets up the state machine to run.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ftc/crazycatladies/schrodinger/state/StateMachine.html#isDone()">isDone()</a></span> - Method in class ftc.crazycatladies.schrodinger.state.<a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a></dt>
 <dd>&nbsp;</dd>
@@ -176,7 +179,10 @@ loadScripts(document, 'script');</script>
 <h2 class="title">O</h2>
 <dl>
 <dt><span class="memberNameLink"><a href="ftc/crazycatladies/schrodinger/state/StateMachine.html#once(ftc.crazycatladies.schrodinger.state.StateFunction)">once(StateFunction&lt;T&gt;)</a></span> - Method in class ftc.crazycatladies.schrodinger.state.<a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Create a state, which exits after one execution, and add it to this state machine
+ from a StateFunction lambda expression</div>
+</dd>
 <dt><a href="ftc/crazycatladies/schrodinger/opmode/OpModeTime.html" title="class in ftc.crazycatladies.schrodinger.opmode"><span class="typeNameLink">OpModeTime</span></a> - Class in <a href="ftc/crazycatladies/schrodinger/opmode/package-summary.html">ftc.crazycatladies.schrodinger.opmode</a></dt>
 <dd>
 <div class="block">Allows classes to use the OpMode time without access to other OpMode stuff</div>
@@ -190,7 +196,10 @@ loadScripts(document, 'script');</script>
 <h2 class="title">P</h2>
 <dl>
 <dt><span class="memberNameLink"><a href="ftc/crazycatladies/schrodinger/state/StateMachine.html#pause(long)">pause(long)</a></span> - Method in class ftc.crazycatladies.schrodinger.state.<a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates a new state which is added to this state machine and causes it to wait a period of time
+ before moving on</div>
+</dd>
 <dt><span class="memberNameLink"><a href="ftc/crazycatladies/schrodinger/log/DataLogger.html#putOpt(org.json.JSONObject,java.lang.String,java.lang.Object)">putOpt(JSONObject, String, Object)</a></span> - Static method in class ftc.crazycatladies.schrodinger.log.<a href="ftc/crazycatladies/schrodinger/log/DataLogger.html" title="class in ftc.crazycatladies.schrodinger.log">DataLogger</a></dt>
 <dd>
 <div class="block">Adds a name/value pair to a JSON object.</div>
@@ -202,10 +211,14 @@ loadScripts(document, 'script');</script>
 <h2 class="title">R</h2>
 <dl>
 <dt><span class="memberNameLink"><a href="ftc/crazycatladies/schrodinger/state/StateMachine.html#repeat(ftc.crazycatladies.schrodinger.state.StateFunction)">repeat(StateFunction&lt;T&gt;)</a></span> - Method in class ftc.crazycatladies.schrodinger.state.<a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Create a state, which repeats by default, and add it to this state machine
+ from a StateFunction lambda expression</div>
+</dd>
 <dt><span class="memberNameLink"><a href="ftc/crazycatladies/schrodinger/state/StateMachine.html#run()">run()</a></span> - Method in class ftc.crazycatladies.schrodinger.state.<a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a></dt>
 <dd>
-<div class="block">running state machines, and using if statements to get information on what to run</div>
+<div class="block">Causes the current state to be executed and the current state to be updated appropriately based on the
+ result (i.e.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ftc/crazycatladies/schrodinger/state/StateFunction.html#run(ftc.crazycatladies.schrodinger.state.State,T)">run(State, T)</a></span> - Method in interface ftc.crazycatladies.schrodinger.state.<a href="ftc/crazycatladies/schrodinger/state/StateFunction.html" title="interface in ftc.crazycatladies.schrodinger.state">StateFunction</a></dt>
 <dd>&nbsp;</dd>
@@ -220,7 +233,9 @@ loadScripts(document, 'script');</script>
 <h2 class="title">S</h2>
 <dl>
 <dt><span class="memberNameLink"><a href="ftc/crazycatladies/schrodinger/state/StateMachine.html#setLooping(boolean)">setLooping(boolean)</a></span> - Method in class ftc.crazycatladies.schrodinger.state.<a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Controls whether this state machine will automatically restart at the first state after completing the last one</div>
+</dd>
 <dt><a href="ftc/crazycatladies/schrodinger/state/State.html" title="class in ftc.crazycatladies.schrodinger.state"><span class="typeNameLink">State</span></a>&lt;<a href="ftc/crazycatladies/schrodinger/state/State.html" title="type parameter in State">T</a>&gt; - Class in <a href="ftc/crazycatladies/schrodinger/state/package-summary.html">ftc.crazycatladies.schrodinger.state</a></dt>
 <dd>
 <div class="block">Defines a potential status for a state machine.</div>
@@ -250,12 +265,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><span class="typeNameLink">StateMachine</span></a>&lt;<a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="type parameter in StateMachine">T</a>&gt; - Class in <a href="ftc/crazycatladies/schrodinger/state/package-summary.html">ftc.crazycatladies.schrodinger.state</a></dt>
 <dd>
-<div class="block">program using state machines, sequential actions that can be performed simultaneously</div>
+<div class="block">State machine which executes the actions specified in a number of <a href="ftc/crazycatladies/schrodinger/state/State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a> objects.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ftc/crazycatladies/schrodinger/state/StateMachine.html#%3Cinit%3E(java.lang.String)">StateMachine(String)</a></span> - Constructor for class ftc.crazycatladies.schrodinger.state.<a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a></dt>
-<dd>
-<div class="block">calling String "name" to run in state machine</div>
-</dd>
+<dd>&nbsp;</dd>
 <dt><a href="ftc/crazycatladies/schrodinger/state/StateTransitionAction.html" title="class in ftc.crazycatladies.schrodinger.state"><span class="typeNameLink">StateTransitionAction</span></a> - Class in <a href="ftc/crazycatladies/schrodinger/state/package-summary.html">ftc.crazycatladies.schrodinger.state</a></dt>
 <dd>
 <div class="block">Result for executing a <a href="ftc/crazycatladies/schrodinger/state/State.html" title="class in ftc.crazycatladies.schrodinger.state"><code>State</code></a> for which the <a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state"><code>StateMachine</code></a> should transition to the next state</div>
@@ -267,7 +280,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Close the log writer</div>
 </dd>
 <dt><span class="memberNameLink"><a href="ftc/crazycatladies/schrodinger/state/StateMachine.html#stop()">stop()</a></span> - Method in class ftc.crazycatladies.schrodinger.state.<a href="ftc/crazycatladies/schrodinger/state/StateMachine.html" title="class in ftc.crazycatladies.schrodinger.state">StateMachine</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Stops the state machine from executing further when <a href="ftc/crazycatladies/schrodinger/state/StateMachine.html#run()"><code>StateMachine.run()</code></a> is invoked</div>
+</dd>
 </dl>
 <a id="I:T">
 <!--   -->
