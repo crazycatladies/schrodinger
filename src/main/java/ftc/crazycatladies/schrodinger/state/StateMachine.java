@@ -148,6 +148,9 @@ public class StateMachine<T> {
         if (isDone) {
             DataLogger.putOpt(log, "isDone", "true");
         } else {
+            if (currentState == null)
+                throw new RuntimeException("Attempt to run State Machine without a current state. Call init() first");
+
             currentState.resetNextAction();
 
             final int cur = states.indexOf(currentState);
@@ -202,12 +205,19 @@ public class StateMachine<T> {
      * @param ms number of milliseonds to wait before transitioning to the next state
      * @return
      */
-    public StateMachine<T> pause(final long ms) {
-        add(State.create((state, context) -> {
+    public State<T> pause(final long ms) {
+        return add(State.create((state, context) -> {
             if (state.timeInState.milliseconds() > ms)
                 state.next();
         }));
-        return this;
+    }
+
+    public State<T> waitFor(StateMachine sm, int timeoutMs) {
+        return repeat((state, context1) -> {
+            if (sm.isDone() || state.getTimeInState().milliseconds() > timeoutMs) {
+                state.next();
+            }
+        });
     }
 
     /**

@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-	api('org.json:json:20190722')
+	implementation('org.json:json:20190722')
 	implementation files('libs/RobotCore.jar')
 
     // Use JUnit test framework
@@ -28,7 +28,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'ftc.crazycatladies'
             artifactId = 'schrodinger'
-            version = '0.1.2'
+            version = '0.1.4'
 
             from components.java
         }
@@ -53,8 +53,8 @@ bintray {
 		licenses = ['MIT']
 		vcsUrl = 'https://github.com/crazycatladies/schrodinger'
 		version {
-			name = '0.1.2'
-			desc = '0.1.2'
+			name = '0.1.4'
+			desc = '0.1.4'
 			released  = new Date()
 		}
 	}
