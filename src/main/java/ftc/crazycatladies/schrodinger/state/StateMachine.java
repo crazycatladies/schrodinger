@@ -212,14 +212,6 @@ public class StateMachine<T> {
         }));
     }
 
-    public State<T> waitFor(StateMachine sm, int timeoutMs) {
-        return repeat((state, context1) -> {
-            if (sm.isDone() || state.getTimeInState().milliseconds() > timeoutMs) {
-                state.next();
-            }
-        });
-    }
-
     /**
      * @return true if this state machine will automatically restart at the first state after completing the last one
      */
