@@ -5,7 +5,9 @@ import org.json.JSONObject;
 import ftc.crazycatladies.schrodinger.log.DataLogger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * State machine which executes the actions specified in a number of {@link State} objects. Status follows
@@ -40,6 +42,7 @@ import java.util.List;
 public class StateMachine<T> {
     private String name;
     private List<State> states = new ArrayList<State>();
+    private Map<String, State> stateNameMap = new HashMap<>();
     private State currentState;
     private boolean isDone;
     private T context;
@@ -67,6 +70,9 @@ public class StateMachine<T> {
             throw new RuntimeException("States cannot be added more than once");
 
         states.add(state);
+
+        populateStateNameMap();
+
         return state;
     }
 
@@ -77,7 +83,19 @@ public class StateMachine<T> {
      */
     public StateMachine<T> addAll(StateMachine sm) {
         states.addAll(sm.states);
+
+        populateStateNameMap();
+
         return this;
+    }
+
+    private void populateStateNameMap() {
+        stateNameMap.clear();
+        for (State s : states) {
+            if (s.name != null) {
+                stateNameMap.put(s.name, s);
+            }
+        }
     }
 
     /**
@@ -98,6 +116,16 @@ public class StateMachine<T> {
      */
     public State<T> once(StateFunction<T> function) {
         return add(State.createOnce(function));
+    }
+
+    public State<T> once(String name, StateFunction<T> function) {
+        return add(State.createOnce(name, function));
+    }
+
+    public State<T> complete(StateFunction<T> waitFunc, StateFunction<T> doFunc) {
+        State<T> doState = add(State.createOnce(doFunc));
+        add(State.create(waitFunc));
+        return doState;
     }
 
     public StateMachine<T> init() {
@@ -175,7 +203,11 @@ public class StateMachine<T> {
                     currentState.init();
                 }
             } else if (currentState.getNextAction() instanceof StateJumpAction) {
-                currentState = ((StateJumpAction) currentState.getNextAction()).nextState;
+                StateJumpAction jump = (StateJumpAction) currentState.getNextAction();
+                currentState = jump.nextState;
+                if (currentState == null) {
+                    currentState = stateNameMap.get(jump.nextStateName);
+                }
                 currentState.init();
             }
         }

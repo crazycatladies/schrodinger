@@ -13,6 +13,12 @@ public abstract class State<T> {
      */
     protected ElapsedTime timeInState;
     private StateAction nextAction;
+    String name;
+
+    public State() {}
+    public State(String name) {
+        this.name = name;
+    }
 
     /**
      * Defines the actions that should run while a {@link StateMachine} is in this state. State will run infinitely
@@ -44,6 +50,9 @@ public abstract class State<T> {
     public void jump(State nextState) {
         nextAction = new StateJumpAction(nextState);
     }
+    public void jump(String nextState) {
+        nextAction = new StateJumpAction(nextState);
+    }
 
     StateAction getNextAction() {
         return nextAction;
@@ -57,7 +66,11 @@ public abstract class State<T> {
     }
 
     static <C> State create(final StateFunction<C> function) {
-        return new State<C>() {
+        return create(null, function);
+    }
+
+    static <C> State create(final String name, final StateFunction<C> function) {
+        return new State<C>(name) {
             @Override
             protected void run(C context) {
                 function.run(this, context);
@@ -66,7 +79,11 @@ public abstract class State<T> {
     }
 
     static <C> State createOnce(final StateFunction<C> function) {
-        return new State<C>() {
+        return createOnce(null, function);
+    }
+
+    static <C> State createOnce(final String name, final StateFunction<C> function) {
+        return new State<C>(name) {
             @Override
             protected void run(C context) {
                 function.run(this, context);

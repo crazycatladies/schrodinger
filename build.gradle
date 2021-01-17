@@ -28,7 +28,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'ftc.crazycatladies'
             artifactId = 'schrodinger'
-            version = '0.1.5'
+            version = '0.2'
 
             from components.java
         }
@@ -53,8 +53,8 @@ bintray {
 		licenses = ['MIT']
 		vcsUrl = 'https://github.com/crazycatladies/schrodinger'
 		version {
-			name = '0.1.5'
-			desc = '0.1.5'
+			name = '0.2'
+			desc = '0.2'
 			released  = new Date()
 		}
 	}

@@ -6,8 +6,13 @@ package ftc.crazycatladies.schrodinger.state;
  */
 public class StateJumpAction extends StateAction {
     State nextState;
+    String nextStateName;
 
     StateJumpAction(State state) {
         nextState = state;
+    }
+
+    public StateJumpAction(String nextState) {
+        nextStateName = nextState;
     }
 }

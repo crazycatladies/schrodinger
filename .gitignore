@@ -8,3 +8,5 @@ build
 gradle.properties
 
 sdcard
+/.idea/caches/
+local.properties
