@@ -1,5 +1,7 @@
 package ftc.crazycatladies.schrodinger.log;
 
+import com.qualcomm.robotcore.util.RobotLog;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,13 +35,14 @@ public class DataLogger {
         try {
             File file = new File("sdcard", filename);
             writer = new BufferedWriter(new FileWriter(file));
+            RobotLog.i("log started at " + file.getAbsolutePath());
 
             File listFile = new File("sdcard", "listing.log");
             BufferedWriter listWriter = new BufferedWriter(new FileWriter(listFile, true));
             listWriter.write(filename + "\n");
             listWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            RobotLog.logStackTrace(e);
             writer = new BufferedWriter(new StringWriter());
         }
 
@@ -74,8 +77,6 @@ public class DataLogger {
      * @return static DataLogger
      */
     public static DataLogger createDataLogger(OpModeTime opModeTime, String opModeName) {
-        if (logger != null)
-            return logger;
         return logger = new DataLogger(opModeTime, opModeName);
     }
 
