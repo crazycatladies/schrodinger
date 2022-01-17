@@ -35,7 +35,7 @@ public class DataLogger {
         try {
             File file = new File("sdcard", filename);
             writer = new BufferedWriter(new FileWriter(file));
-            RobotLog.i("log started at " + file.getAbsolutePath());
+//            RobotLog.i("log started at " + file.getAbsolutePath());
 
             File listFile = new File("sdcard", "listing.log");
             BufferedWriter listWriter = new BufferedWriter(new FileWriter(listFile, true));

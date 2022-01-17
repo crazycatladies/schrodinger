@@ -28,7 +28,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'ftc.crazycatladies'
             artifactId = 'schrodinger'
-            version = '0.3.1'
+            version = '0.3.3'
 
             from components.java
         }
@@ -41,6 +41,7 @@ publishing {
     }
 }
 
+/*
 bintray {
 	user = findProperty("bintray.user")
 	key = findProperty("bintray.key")
@@ -58,4 +59,4 @@ bintray {
 			released  = new Date()
 		}
 	}
-}
+} */

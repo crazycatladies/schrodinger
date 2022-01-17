@@ -108,6 +108,8 @@ public class StateMachine<T> {
         return add(State.create(function));
     }
 
+    public State<T> repeat(String name, StateFunction<T> function) { return add(State.create(name, function)); }
+
     /**
      * Create a state, which exits after one execution, and add it to this state machine
      * from a StateFunction lambda expression
@@ -256,5 +258,9 @@ public class StateMachine<T> {
      */
     public void setLooping(boolean looping) {
         this.looping = looping;
+    }
+
+    public State getCurrentState() {
+        return currentState;
     }
 }
