@@ -1,5 +1,7 @@
 package ftc.crazycatladies.schrodinger.state;
 
+import com.qualcomm.robotcore.util.RobotLog;
+
 import org.json.JSONObject;
 
 import ftc.crazycatladies.schrodinger.log.DataLogger;
@@ -214,7 +216,12 @@ public class StateMachine<T> {
             }
         }
 
-        logger.log(log);
+        try {
+            logger.log(log);
+        } catch (Throwable t) {
+            RobotLog.i("" + name + ", " + logger + ", " + t.getMessage());
+            throw t;
+        }
         return action;
     }
 
@@ -240,7 +247,11 @@ public class StateMachine<T> {
      * @return
      */
     public State<T> pause(final long ms) {
-        return add(State.create((state, context) -> {
+        return pause(null, ms);
+    }
+
+    public State<T> pause(String name, final long ms) {
+        return add(State.create(name, (state, context) -> {
             if (state.timeInState.milliseconds() > ms)
                 state.next();
         }));

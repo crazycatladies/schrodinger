@@ -1,7 +1,6 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-	id "com.jfrog.bintray" version "1.8.4"
 }
 
 java {
@@ -28,7 +27,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'ftc.crazycatladies'
             artifactId = 'schrodinger'
-            version = '0.3.3'
+            version = '0.3.5'
 
             from components.java
         }
@@ -40,23 +39,3 @@ publishing {
         }
     }
 }
-
-/*
-bintray {
-	user = findProperty("bintray.user")
-	key = findProperty("bintray.key")
-	publications = ['maven']
-
-	pkg {
-		repo = 'maven'
-		name = 'schrodinger'
-		userOrg = 'crazycatladies'
-		licenses = ['MIT']
-		vcsUrl = 'https://github.com/crazycatladies/schrodinger'
-		version {
-			name = '0.3.1'
-			desc = '0.3.1'
-			released  = new Date()
-		}
-	}
-} */
