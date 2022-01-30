@@ -87,7 +87,8 @@ public abstract class State<T> {
             @Override
             protected void run(C context) {
                 function.run(this, context);
-                next();
+                if (!(getNextAction() instanceof StateJumpAction))
+                    next();
             }
         };
     }

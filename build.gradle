@@ -27,7 +27,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'ftc.crazycatladies'
             artifactId = 'schrodinger'
-            version = '0.3.5'
+            version = '0.6.0'
 
             from components.java
         }
