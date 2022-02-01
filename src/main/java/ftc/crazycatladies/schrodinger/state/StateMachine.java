@@ -187,6 +187,8 @@ public class StateMachine<T> {
 
             final int cur = states.indexOf(currentState);
             DataLogger.putOpt(log, "state", "" + cur);
+            if (currentState.name != null)
+                DataLogger.putOpt(log, "stateName", currentState.name);
             logContext(log);
 
             currentState.run(context);
